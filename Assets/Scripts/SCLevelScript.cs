@@ -133,7 +133,7 @@ public class SCLevelScript : MonoBehaviour
         if (numFrogsUnlocked >= numFrogs)
         {
             bool sceneSelected = false;
-            int randomScene = 0;
+            int randomScene;
             while (!sceneSelected)
             {
                 randomScene = UnityEngine.Random.Range(0, numLevels);

@@ -152,8 +152,7 @@ public class PlayerScript : MonoBehaviour
         if (collision.gameObject.CompareTag("EnemyCar"))
         {
             scScript.ReduceLife();
-            gameObject.transform.position = initialPosition;
-            gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
+            gameObject.transform.SetPositionAndRotation(initialPosition, Quaternion.Euler(0, 0, 0));
             frogRenderer.flipY = false;
             frogRenderer.sprite = frogMovingSprite;
             audioFrog.Stop();

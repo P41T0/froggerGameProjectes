@@ -8,7 +8,6 @@ public class TurtleScript : MonoBehaviour
     private float waterTime;
     private bool turtleTotallySubmerged;
     private bool turtleSubmerged;
-    private bool turtleSubmerging;
     [SerializeField] private GameObject turtleGroup;
     private TurtleGroupScript turtleGroupScript;
 

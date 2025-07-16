@@ -12,12 +12,6 @@ public class WaterObstaclesScript : MonoBehaviour
     {
         enemyRespawnPos = enemyRespawn.transform.position;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (speed < 0)

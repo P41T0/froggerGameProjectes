@@ -13,14 +13,13 @@ public class Arcade : MonoBehaviour
     private String portText;
     private String[] portsAvailable;
     private SerialPort serialPort;
-    private string[] keys = { "la", "ra", "lb", "rb", "l1", "r1", "l2", "r2", "j1_Up", "j2_Up", "j1_Down", "j2_Down", "j1_Left", "j2_Left", "j1_Right", "j2_Right", "start", "select" };
-    private Vector2 j1 = new Vector2(0, 0);
-    private Vector2 j2 = new Vector2(0, 0);
-    private Dictionary<string, bool> keyStates = new Dictionary<string, bool>();
-    private Dictionary<string, bool> keyDown = new Dictionary<string, bool>();
-    private Dictionary<string, bool> keyUp = new Dictionary<string, bool>();
-    private Dictionary<string, byte> j1D = new Dictionary<string, byte>() { { "Up", 0 }, { "Down", 0 }, { "Left", 0 }, { "Right", 0 } };
-    private Dictionary<string, byte> j2D = new Dictionary<string, byte>() { { "Up", 0 }, { "Down", 0 }, { "Left", 0 }, { "Right", 0 } };
+    private readonly string[] keys = { "la", "ra", "lb", "rb", "l1", "r1", "l2", "r2", "j1_Up", "j2_Up", "j1_Down", "j2_Down", "j1_Left", "j2_Left", "j1_Right", "j2_Right", "start", "select" };
+    private Vector2 j1 = new(0, 0);
+    private Vector2 j2 = new(0, 0);
+    private readonly Dictionary<string, bool> keyStates = new();
+    private readonly Dictionary<string, bool> keyDown = new();
+    private readonly Dictionary<string, bool> keyUp = new();
+
     void Awake()
     {
         portsAvailable = SerialPort.GetPortNames();
@@ -106,7 +105,7 @@ public class Arcade : MonoBehaviour
         {
             if (serialPort.IsOpen)
             {
-                resetInputs();
+                ResetInputs();
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
                     SendDataToArduino(243, "rojo", "azul");
@@ -162,9 +161,9 @@ public class Arcade : MonoBehaviour
                         }
                     }
                 }
-                catch (Exception e)
+                catch
                 {
-                    //Debug.LogException(e);
+
                 }
             }
             if (Input.GetKeyDown(KeyCode.Escape))
@@ -174,7 +173,7 @@ public class Arcade : MonoBehaviour
             }
         }
     }
-    private void resetInputs()
+    private void ResetInputs()
     {
         /// "LA" - "RA" - "LB" - "RB" - "L1" - "R2" - "j1_Up" - "j2_Down
         foreach (string key in keys)

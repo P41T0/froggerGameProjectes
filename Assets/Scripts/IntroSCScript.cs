@@ -13,8 +13,6 @@ public class IntroSCScript : MonoBehaviour
     private int buttonSelected;
     private int numButtons;
     private float timer;
-    private GameObject postProcess;
-    private PostProcessControl control;
     private Color unselected;
     private bool optionChanged;
     [SerializeField] private TMP_Text optionsText;
