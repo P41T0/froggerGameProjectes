@@ -51,7 +51,7 @@ public class PostProcessControl : MonoBehaviour
         postProcessLayer.volumeLayer = 1 << 1;
         postProcessLayer.stopNaNPropagation = false;
 
-        foreach (Canvas canvas in FindObjectsOfType<Canvas>())
+        foreach (Canvas canvas in FindObjectsByType<Canvas>(FindObjectsSortMode.None))
             if (canvas.renderMode == RenderMode.ScreenSpaceOverlay) Debug.LogWarning("Overlay Canvas won't have Post-Processing effects", canvas.gameObject);
     }
 
