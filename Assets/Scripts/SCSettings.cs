@@ -1,12 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class SCSettings : MonoBehaviour
 {
+    InputAction navigate;
+    InputAction click;
     [SerializeField] private AudioMixer audioEffectsMixer;
     [SerializeField] private AudioMixer audioMusicMixer;
     private bool optionChanged;
@@ -28,6 +29,8 @@ public class SCSettings : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        navigate = InputSystem.actions.FindAction("Navigate");
+        click = InputSystem.actions.FindAction("Click");
         optionChanged = true;
         unselected = new Color(0.5f, 0.5f, 0.5f);
         if (GameObject.FindGameObjectWithTag("postprocessing") == true)
@@ -165,7 +168,7 @@ public class SCSettings : MonoBehaviour
                 postProcessingPercText.color = unselected;
             }
         }
-        if (Input.GetKeyDown(KeyCode.UpArrow) || Arcade.ac.ButtonDown("la") || Arcade.ac.ButtonDown("j1_Up"))
+        if ((navigate.ReadValue<Vector2>().y > 0 && navigate.WasPressedThisFrame()) || Arcade.ac.ButtonDown("la") || Arcade.ac.ButtonDown("j1_Up"))
         {
             optionSelected--;
             optionChanged = true;
@@ -174,7 +177,7 @@ public class SCSettings : MonoBehaviour
                 optionSelected = numOptions - 1;
             }
         }
-        if (Input.GetKeyDown(KeyCode.DownArrow) || Arcade.ac.ButtonDown("lb") || Arcade.ac.ButtonDown("j1_Down"))
+        if ((navigate.ReadValue<Vector2>().y < 0 && navigate.WasPressedThisFrame()) || Arcade.ac.ButtonDown("lb") || Arcade.ac.ButtonDown("j1_Down"))
         {
             optionSelected++;
             optionChanged = true;
@@ -183,7 +186,7 @@ public class SCSettings : MonoBehaviour
                 optionSelected = 0;
             }
         }
-        if (Input.GetKeyDown(KeyCode.RightArrow) || Arcade.ac.ButtonDown("rb") || Arcade.ac.ButtonDown("j1_Right"))
+        if ((navigate.ReadValue<Vector2>().x > 0 && navigate.WasPressedThisFrame()) || Arcade.ac.ButtonDown("rb") || Arcade.ac.ButtonDown("j1_Right"))
         {
             if (optionSelected == 0)
             {
@@ -274,7 +277,7 @@ public class SCSettings : MonoBehaviour
             }
 
         }
-        if (Input.GetKeyDown(KeyCode.LeftArrow) || Arcade.ac.ButtonDown("lb") || Arcade.ac.ButtonDown("j1_Left"))
+        if ((navigate.ReadValue<Vector2>().x < 0 && navigate.WasPressedThisFrame()) || Arcade.ac.ButtonDown("lb") || Arcade.ac.ButtonDown("j1_Left"))
         {
 
             if (optionSelected == 0)
@@ -371,7 +374,7 @@ public class SCSettings : MonoBehaviour
 
             }
         }
-        if (Input.GetKeyDown(KeyCode.Return) || Arcade.ac.ButtonDown("l1") || Arcade.ac.ButtonDown("select"))
+        if ((click.ReadValue<float>() > 0 && click.WasPressedThisFrame()) || Arcade.ac.ButtonDown("l1") || Arcade.ac.ButtonDown("select"))
         {
             ReturnToIntro();
         }

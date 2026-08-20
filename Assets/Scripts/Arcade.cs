@@ -1,11 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System.IO.Ports; //Per a descarregar el paquet: Herramientas -> Administrador de paquetes NuGet -> Administrar paquetes de NuGet para la solucion
-// Buscar o Ctrl + L -> System.io.ports -> INSTALAR Y REINICIAR VISUAL STUDIO COMUNITY
+﻿// Buscar o Ctrl + L -> System.io.ports -> INSTALAR Y REINICIAR VISUAL STUDIO COMUNITY
 using System;
-using System.Linq;
+using System.Collections.Generic;
 using System.IO;
+using System.IO.Ports; //Per a descarregar el paquet: Herramientas -> Administrador de paquetes NuGet -> Administrar paquetes de NuGet para la solucion
+using System.Linq;
+using UnityEngine;
 
 public class Arcade : MonoBehaviour
 {

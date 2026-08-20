@@ -1,14 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.Audio;
-using Unity.Mathematics;
-using UnityEngine.UI;
+using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class IntroSCScript : MonoBehaviour
 {
+    InputAction navigateAction;
+    InputAction selectAction;
     private string portText;
     private int buttonSelected;
     private int numButtons;
@@ -25,6 +24,8 @@ public class IntroSCScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        navigateAction = InputSystem.actions.FindAction("Navigate");
+        selectAction = InputSystem.actions.FindAction("Click");
         optionChanged = true;
         unselected = new Color(0.5f, 0.5f, 0.5f);
         timer = 0.0f;
@@ -180,7 +181,7 @@ public class IntroSCScript : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.DownArrow) || Arcade.ac.ButtonDown("lb") || Arcade.ac.ButtonDown("j1_Down"))
+        if ((navigateAction.ReadValue<Vector2>().y < 0 && navigateAction.WasPressedThisFrame())|| Arcade.ac.ButtonDown("lb") || Arcade.ac.ButtonDown("j1_Down"))
         {
             buttonSelected++;
             optionChanged = true;
@@ -189,7 +190,7 @@ public class IntroSCScript : MonoBehaviour
                 buttonSelected = 0;
             }
         }
-        if (Input.GetKeyDown(KeyCode.UpArrow) || Arcade.ac.ButtonDown("la") || Arcade.ac.ButtonDown("j1_Up"))
+        if ((navigateAction.ReadValue<Vector2>().y > 0 && navigateAction.WasPressedThisFrame()) || Arcade.ac.ButtonDown("la") || Arcade.ac.ButtonDown("j1_Up"))
         {
             buttonSelected--;
             optionChanged = true;
@@ -198,7 +199,7 @@ public class IntroSCScript : MonoBehaviour
                 buttonSelected = numButtons - 1;
             }
         }
-        if (Input.GetKeyDown(KeyCode.Return) || Arcade.ac.ButtonDown("l1") || Arcade.ac.ButtonDown("select"))
+        if ((selectAction.ReadValue<float>() > 0 && selectAction.WasPressedThisDynamicUpdate()) || Arcade.ac.ButtonDown("l1") || Arcade.ac.ButtonDown("select"))
         {
             if (buttonSelected == 0)
             {

@@ -1,6 +1,7 @@
-using UnityEngine.Rendering.PostProcessing;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -18,19 +19,18 @@ public class PostProcessControl : MonoBehaviour
     [Range(0, 1)] public static float s_effectWeight = 1f;
 
     public static bool HasGameObject { get; private set; }
-    static PostProcessVolume volume;
+    static Volume volume;
 
     void Awake()
     {
-        if (typeof(PostProcessLayer).ToString() != "UnityEngine.Rendering.PostProcessing.PostProcessLayer")
-            Debug.LogError("Post Processing package is not installed.\nInstall it from: Window → Package Manager, Set [Unity Registry] on the right dropdown, search for Post Processing → Install");
+        if (UnityEngine.Rendering.GraphicsSettings.currentRenderPipeline == null)
+            Debug.LogError("No Scriptable Render Pipeline asset assigned. Assign a Universal Render Pipeline asset in Project Settings > Graphics.");
 
         if (HasGameObject) { Destroy(gameObject); return; }
         DontDestroyOnLoad(gameObject); HasGameObject = true;
-        if (TryGetComponent<PostProcessVolume>(out var v)) volume = v;
-        else { Debug.LogWarning($"PostProcess component not found", gameObject); return; }
+        if (TryGetComponent<Volume>(out var v)) volume = v;
+        else { Debug.LogWarning($"Volume component not found. Add a Volume (GameObject > Volume > Global Volume) to this GameObject.", gameObject); return; }
 
-        // s_effectWeight = effectWeight;
         s_effectWeight = PlayerPrefs.GetFloat("PostProcessingLevel", 1);
         s_transitionDuration = transitionDuration;
 
@@ -43,15 +43,15 @@ public class PostProcessControl : MonoBehaviour
         gameObject.layer = LayerMask.NameToLayer("TransparentFX");
 
         if (Camera.allCameras.Length > 1) { Debug.LogWarning("More than one camera found in the scene."); return; }
-        if (!Camera.main.TryGetComponent<PostProcessLayer>(out var postProcessLayer))
-            postProcessLayer = Camera.main.gameObject.AddComponent<PostProcessLayer>();
+        var cam = Camera.main;
+        if (cam == null) { Debug.LogWarning("Main camera not found."); return; }
 
-        postProcessLayer.volumeTrigger = null;
-        postProcessLayer.antialiasingMode = PostProcessLayer.Antialiasing.None;
-        postProcessLayer.volumeLayer = 1 << 1;
-        postProcessLayer.stopNaNPropagation = false;
+        if (!cam.TryGetComponent<UniversalAdditionalCameraData>(out var additional)) additional = cam.gameObject.AddComponent<UniversalAdditionalCameraData>();
 
-        foreach (Canvas canvas in FindObjectsByType<Canvas>(FindObjectsSortMode.None))
+        additional.renderPostProcessing = true;
+        additional.volumeLayerMask = 1 << 1;
+
+        foreach (Canvas canvas in FindObjectsByType<Canvas>())
             if (canvas.renderMode == RenderMode.ScreenSpaceOverlay) Debug.LogWarning("Overlay Canvas won't have Post-Processing effects", canvas.gameObject);
     }
 

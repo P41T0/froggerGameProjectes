@@ -1,13 +1,10 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.InputSystem;
 
 public class PlayerScript : MonoBehaviour
 {
     // Start is called before the first frame update
+    InputAction moveAction;
     private AudioSource audioFrog;
     [SerializeField] private AudioClip frogHop;
     [SerializeField] private AudioClip frogDiedWater;
@@ -27,6 +24,7 @@ public class PlayerScript : MonoBehaviour
     private float maxplayerYposition;
     void Start()
     {
+        moveAction = InputSystem.actions.FindAction("Move");
         inaFrogBool = false;
         audioFrog = gameObject.GetComponent<AudioSource>();
         sceneController = GameObject.FindGameObjectWithTag("SceneController");
@@ -64,7 +62,7 @@ public class PlayerScript : MonoBehaviour
                 frogRenderer.sprite = frogIdleSprite;
             }
 
-            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) || Arcade.ac.ButtonDown("j1_Up"))
+            if ((moveAction.ReadValue<Vector2>().y > 0 && moveAction.WasPressedThisFrame()) || Arcade.ac.ButtonDown("j1_Up"))
             {
                 gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
                 frogRenderer.flipY = false;
@@ -73,7 +71,7 @@ public class PlayerScript : MonoBehaviour
 
 
             }
-            else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow) || Arcade.ac.ButtonDown("j1_Down"))
+            else if ((moveAction.ReadValue<Vector2>().y < 0 && moveAction.WasPressedThisFrame())|| Arcade.ac.ButtonDown("j1_Down"))
             {
                 gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
                 frogRenderer.flipY = true;
@@ -81,7 +79,7 @@ public class PlayerScript : MonoBehaviour
                 waitTime = 0.15f;
 
             }
-            if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow) || Arcade.ac.ButtonDown("j1_Right"))
+            if ((moveAction.ReadValue<Vector2>().x > 0 && moveAction.WasPressedThisFrame())|| Arcade.ac.ButtonDown("j1_Right"))
             {
                 gameObject.transform.rotation = Quaternion.Euler(0, 0, 90);
                 frogRenderer.flipY = true;
@@ -89,7 +87,7 @@ public class PlayerScript : MonoBehaviour
                 waitTime = 0.15f;
 
             }
-            else if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow) || Arcade.ac.ButtonDown("j1_Left"))
+            else if ((moveAction.ReadValue<Vector2>().x < 0 && moveAction.WasPressedThisFrame()) || Arcade.ac.ButtonDown("j1_Left"))
             {
                 frogRenderer.flipY = false;
                 gameObject.transform.rotation = Quaternion.Euler(0, 0, 90);

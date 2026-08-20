@@ -1,9 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Animator))]
 public class TurtleScript : MonoBehaviour
 {
+    private static readonly int SubmergedHash = Animator.StringToHash("submerged");
     private Animator turtleAnimator;
     private float waterTime;
     private bool turtleTotallySubmerged;
@@ -29,7 +29,7 @@ public class TurtleScript : MonoBehaviour
             waterTime -= Time.deltaTime;
             if (waterTime < 0)
             {
-                turtleAnimator.SetInteger("submerged", 3);
+                turtleAnimator.SetInteger(SubmergedHash, 3);
                 turtleTotallySubmerged = false;
             }
         }
@@ -39,7 +39,7 @@ public class TurtleScript : MonoBehaviour
     {
         if (turtleSubmerged == false)
         {
-            turtleAnimator.SetInteger("submerged", 1);
+            turtleAnimator.SetInteger(SubmergedHash, 1);
             waterTime = timeSubmerged;
         }
     }
@@ -48,14 +48,14 @@ public class TurtleScript : MonoBehaviour
 
     public void TurtleHasSubmerged()
     {
-        turtleAnimator.SetInteger("submerged", 2);
+        turtleAnimator.SetInteger(SubmergedHash, 2);
         turtleGroupScript.ChangeSubmerged();
         turtleSubmerged = true;
         turtleTotallySubmerged = true;
     }
     public void TurtleHasEmerged()
     {
-        turtleAnimator.SetInteger("submerged", 4);
+        turtleAnimator.SetInteger(SubmergedHash, 4);
         turtleGroupScript.TurtleEmerged();
         turtleSubmerged = false;
     }

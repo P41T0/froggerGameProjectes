@@ -1,0 +1,66 @@
+{
+    "version": 1,
+    "name": "Player input",
+    "maps": [
+        {
+            "name": "New action map",
+            "id": "2885cae2-68d9-4e41-8372-22144b2e1b2e",
+            "actions": [
+                {
+                    "name": "New action",
+                    "type": "Button",
+                    "id": "06d30763-2575-49d7-983d-c2e8e94565ee",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "New action1",
+                    "type": "Button",
+                    "id": "cf361028-3423-4985-9a05-8706dab239ab",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Tap",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "8647d8f1-a438-4d85-affb-d820762cb254",
+                    "path": "<Keyboard>/upArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "New action",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "cab6c5f6-2366-42ca-95b1-e8419b047c52",
+                    "path": "<Keyboard>/w",
+                    "interactions": "Tap",
+                    "processors": "",
+                    "groups": "",
+                    "action": "New action",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c6f711fb-fccd-41fd-b211-450d9ddf525d",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "New action1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
